@@ -38,6 +38,31 @@ export function detectImageFormat(buffer: ArrayBuffer): string | null {
     return 'jxl';
   }
 
+  if (view[0] === 0x49 && view[1] === 0x49 && view[2] === 0xBC) {
+    return 'jxr';
+  }
+
+  if (view[0] === 0x00 && view[1] === 0x00 && view[2] === 0x00 && view[3] === 0x0C &&
+      view[4] === 0x6A && view[5] === 0x50 && view[6] === 0x20 && view[7] === 0x20 &&
+      view[8] === 0x0D && view[9] === 0x0A && view[10] === 0x87 && view[11] === 0x0A) {
+    return 'jp2';
+  }
+
+  if (view[0] === 0xFF && view[1] === 0x4F && view[2] === 0xFF && view[3] === 0x51) {
+    return 'j2k';
+  }
+
+  if (view[0] === 0x97 && view[1] === 0x4A && view[2] === 0x42 && view[3] === 0x32 &&
+      view[4] === 0x0D && view[5] === 0x0A && view[6] === 0x1A && view[7] === 0x0A) {
+    return 'jbig';
+  }
+
+  if (view[0] === 0x00 && view[1] === 0x00 && view[2] === 0x00 && view[3] === 0x0C &&
+      view[4] === 0x6A && view[5] === 0x62 && view[6] === 0x69 && view[7] === 0x67 &&
+      view[8] === 0x32) {
+    return 'jbig2';
+  }
+
   return null;
 }
 
