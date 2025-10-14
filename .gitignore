@@ -1,0 +1,14 @@
+node_modules/
+dist/
+public/
+*.log
+.DS_Store
+*.wasm.d.ts
+.env
+
+# Native build artifacts
+native/**/*
+!native/**/*.c
+
+# WASM output (generated during build)
+wasm/
