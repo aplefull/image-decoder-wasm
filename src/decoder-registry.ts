@@ -1,5 +1,6 @@
 import { ImageDecoder } from './types';
 import { AvifDecoder } from './decoders/avif-decoder';
+import { HeifDecoder } from './decoders/heif-decoder';
 
 class DecoderRegistry {
   private decoders: Map<string, ImageDecoder> = new Map();
@@ -10,6 +11,7 @@ class DecoderRegistry {
 
   private registerDefaultDecoders(): void {
     this.register(new AvifDecoder());
+    this.register(new HeifDecoder());
   }
 
   register(decoder: ImageDecoder): void {

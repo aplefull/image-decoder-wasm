@@ -6,6 +6,9 @@ public/
 *.wasm.d.ts
 .env
 
+# Emscripten SDK (downloaded automatically)
+emsdk/
+
 # Native build artifacts
 native/**/*
 !native/**/*.c

@@ -21,6 +21,14 @@ export function detectImageFormat(buffer: ArrayBuffer): string | null {
     return 'avif';
   }
 
+  if (view[4] === 0x66 && view[5] === 0x74 && view[6] === 0x79 && view[7] === 0x70) {
+    const brand = String.fromCharCode(view[8], view[9], view[10], view[11]);
+    if (brand === 'heic' || brand === 'heix' || brand === 'hevc' || 
+        brand === 'hevx' || brand === 'mif1' || brand === 'msf1') {
+      return 'heif';
+    }
+  }
+
   if (view[0] === 0xFF && view[1] === 0x0A) {
     return 'jxl';
   }

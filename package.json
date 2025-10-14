@@ -12,6 +12,7 @@
     "build": "rollup -c",
     "build:wasm": "./scripts/build-all.sh",
     "build:wasm:avif": "./scripts/build-avif.sh",
+    "build:wasm:heif": "./scripts/build-heif.sh",
     "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
     "test": "node test/decoder.test.js",
@@ -23,6 +24,8 @@
     "wasm",
     "webassembly",
     "avif",
+    "heif",
+    "heic",
     "webp",
     "jxl"
   ],

@@ -19,7 +19,21 @@ export class ImageDecoderWasm {
       );
     }
 
-    return decoder.decode(buffer, options);
+    try {
+      return await decoder.decode(buffer, options);
+    } catch (error) {
+      if (decoder.format.toLowerCase() === 'avif') {
+        const heifDecoder = decoderRegistry.getDecoder('heif');
+        if (heifDecoder) {
+          try {
+            return await heifDecoder.decode(buffer, options);
+          } catch (heifError) {
+            throw error;
+          }
+        }
+      }
+      throw error;
+    }
   }
 
   async decode(buffer: ArrayBuffer, options?: DecoderOptions): Promise<ImageData> {

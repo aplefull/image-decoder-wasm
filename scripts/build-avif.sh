@@ -1,16 +1,13 @@
 #!/bin/bash
 set -e
 
-EMSDK_PATH="${EMSDK_PATH:-$HOME/Repos/emsdk}"
-NATIVE_DIR="$(pwd)/native/avif"
-WASM_DIR="$(pwd)/wasm/avif"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-if [ ! -d "$EMSDK_PATH" ]; then
-  echo "Error: EMSDK not found at $EMSDK_PATH"
-  exit 1
-fi
+source "$SCRIPT_DIR/setup-emsdk.sh"
 
-source "$EMSDK_PATH/emsdk_env.sh"
+NATIVE_DIR="$PROJECT_ROOT/native/avif"
+WASM_DIR="$PROJECT_ROOT/wasm/avif"
 
 mkdir -p "$NATIVE_DIR"
 mkdir -p "$WASM_DIR"
@@ -141,7 +138,7 @@ emmake make -j$(nproc)
 
 cd "$NATIVE_DIR"
 
-echo "Creating WASM wrapper..."
+echo "Compiling WASM module..."
 emcc avif_decoder.c \
   -I"$NATIVE_DIR/libavif/include" \
   -I"$NATIVE_DIR/aom" \
