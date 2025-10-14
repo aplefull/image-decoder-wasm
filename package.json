@@ -13,6 +13,7 @@
     "build:wasm": "./scripts/build-all.sh",
     "build:wasm:avif": "./scripts/build-avif.sh",
     "build:wasm:heif": "./scripts/build-heif.sh",
+    "build:wasm:webp": "./scripts/build-webp.sh",
     "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
     "test": "node test/decoder.test.js",

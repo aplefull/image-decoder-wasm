@@ -1,6 +1,7 @@
 import { ImageDecoder } from './types';
 import { AvifDecoder } from './decoders/avif-decoder';
 import { HeifDecoder } from './decoders/heif-decoder';
+import { WebpDecoder } from './decoders/webp-decoder';
 
 class DecoderRegistry {
   private decoders: Map<string, ImageDecoder> = new Map();
@@ -12,6 +13,7 @@ class DecoderRegistry {
   private registerDefaultDecoders(): void {
     this.register(new AvifDecoder());
     this.register(new HeifDecoder());
+    this.register(new WebpDecoder());
   }
 
   register(decoder: ImageDecoder): void {
