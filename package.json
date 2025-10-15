@@ -15,6 +15,7 @@
     "build:wasm:heif": "./scripts/build-heif.sh",
     "build:wasm:webp": "./scripts/build-webp.sh",
     "build:wasm:jxl": "./scripts/build-jxl.sh",
+    "build:wasm:jpeg": "./scripts/build-jpeg.sh",
     "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
     "test": "node test/decoder.test.js",
@@ -29,7 +30,8 @@
     "heif",
     "heic",
     "webp",
-    "jxl"
+    "jxl",
+    "jpeg"
   ],
   "author": "",
   "license": "MIT",
