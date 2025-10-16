@@ -63,5 +63,5 @@ export abstract class BaseDecoder implements ImageDecoder {
     };
   }
 
-  abstract canDecode(buffer: ArrayBuffer): boolean;
+  abstract canDecode(buffer: ArrayBuffer): Promise<boolean>;
 }

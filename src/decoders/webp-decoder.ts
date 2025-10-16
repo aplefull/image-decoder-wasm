@@ -5,7 +5,7 @@ export class WebpDecoder extends BaseDecoder {
   readonly format = 'webp';
   readonly wasmJsPath = '/wasm/webp/decoder.js';
 
-  canDecode(buffer: ArrayBuffer): boolean {
+  async canDecode(buffer: ArrayBuffer): Promise<boolean> {
     return detectImageFormat(buffer) === 'webp';
   }
 }

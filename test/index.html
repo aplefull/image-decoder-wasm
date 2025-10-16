@@ -185,10 +185,10 @@
         const format = imageDecoder.detectFormat(buffer);
 
         if (!format) {
-          throw new Error('Unknown image format');
+          console.warn('Unknown image format');
         }
 
-        console.log('Decoding', format, 'image...');
+        console.log('Decoding', format ? format : 'unknown', 'image...');
         const imageData = await imageDecoder.decode(buffer);
         const decodeTime = (performance.now() - startTime).toFixed(2);
 
@@ -204,7 +204,7 @@
               </div>
               <div class="info-item">
                 <span class="info-label">Format:</span>
-                <span class="info-value">${format.toUpperCase()}</span>
+                <span class="info-value">${(format || 'unknown').toUpperCase()}</span>
               </div>
               <div class="info-item">
                 <span class="info-label">File Size:</span>

@@ -13,7 +13,7 @@ export interface DecoderOptions {
 
 export interface ImageDecoder {
   decode(buffer: ArrayBuffer, options?: DecoderOptions): Promise<DecodedImage>;
-  canDecode(buffer: ArrayBuffer): boolean;
+  canDecode(buffer: ArrayBuffer): Promise<boolean>;
   readonly format: string;
 }
 

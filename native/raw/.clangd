@@ -1,0 +1,8 @@
+CompileFlags:
+  Add:
+    - "-D__EMSCRIPTEN__"
+    - "-Wno-unknown-attributes"
+    - "-I../../emsdk/upstream/emscripten/cache/sysroot/include"
+    - "-I./libraw_install/include"
+  Remove:
+    - "-m*"

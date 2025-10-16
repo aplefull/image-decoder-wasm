@@ -5,7 +5,7 @@ export class JxlDecoder extends BaseDecoder {
   readonly format = 'jxl';
   readonly wasmJsPath = '/wasm/jxl/decoder.js';
 
-  canDecode(buffer: ArrayBuffer): boolean {
+  async canDecode(buffer: ArrayBuffer): Promise<boolean> {
     return detectImageFormat(buffer) === 'jxl';
   }
 }

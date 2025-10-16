@@ -6,6 +6,7 @@ import { JxlDecoder } from './decoders/jxl-decoder';
 import { JpegDecoder } from './decoders/jpeg-decoder';
 import { JpegLsDecoder } from './decoders/jpegls-decoder';
 import { TiffDecoder } from './decoders/tiff-decoder';
+import { RawDecoder } from './decoders/raw-decoder';
 
 class DecoderRegistry {
   private decoders: Map<string, ImageDecoder> = new Map();
@@ -22,6 +23,7 @@ class DecoderRegistry {
     this.register(new JpegDecoder());
     this.register(new JpegLsDecoder());
     this.register(new TiffDecoder());
+    this.register(new RawDecoder());
   }
 
   register(decoder: ImageDecoder): void {
@@ -32,9 +34,9 @@ class DecoderRegistry {
     return this.decoders.get(format.toLowerCase());
   }
 
-  getDecoderForBuffer(buffer: ArrayBuffer): ImageDecoder | undefined {
+  async getDecoderForBuffer(buffer: ArrayBuffer): Promise<ImageDecoder | undefined> {
     for (const decoder of this.decoders.values()) {
-      if (decoder.canDecode(buffer)) {
+      if (await decoder.canDecode(buffer)) {
         return decoder;
       }
     }

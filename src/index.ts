@@ -8,7 +8,7 @@ export { AvifDecoder } from './decoders/avif-decoder';
 
 export class ImageDecoderWasm {
   private async decodeInternal(buffer: ArrayBuffer, options?: DecoderOptions): Promise<DecodedImage> {
-    const decoder = decoderRegistry.getDecoderForBuffer(buffer);
+    const decoder = await decoderRegistry.getDecoderForBuffer(buffer);
 
     if (!decoder) {
       const format = detectImageFormat(buffer);

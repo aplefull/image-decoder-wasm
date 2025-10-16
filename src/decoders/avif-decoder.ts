@@ -6,7 +6,7 @@ export class AvifDecoder extends BaseDecoder {
   readonly format = 'avif';
   readonly wasmJsPath = decoderUrl;
 
-  canDecode(buffer: ArrayBuffer): boolean {
+  async canDecode(buffer: ArrayBuffer): Promise<boolean> {
     return detectImageFormat(buffer) === 'avif';
   }
 }

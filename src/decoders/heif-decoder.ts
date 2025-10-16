@@ -6,7 +6,7 @@ export class HeifDecoder extends BaseDecoder {
   readonly format = 'heif';
   readonly wasmJsPath = decoderUrl;
 
-  canDecode(buffer: ArrayBuffer): boolean {
+  async canDecode(buffer: ArrayBuffer): Promise<boolean> {
     const format = detectImageFormat(buffer);
     return format === 'avif' || format === 'heif' || format === 'heic';
   }

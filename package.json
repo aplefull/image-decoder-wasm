@@ -18,6 +18,7 @@
     "build:wasm:jpeg": "./scripts/build-jpeg.sh",
     "build:wasm:jpegls": "./scripts/build-jpegls.sh",
     "build:wasm:tiff": "./scripts/build-tiff.sh",
+    "build:wasm:raw": "./scripts/build-raw.sh",
     "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
     "test": "node test/decoder.test.js",
@@ -35,7 +36,13 @@
     "jxl",
     "jpeg",
     "jpegls",
-    "jpeg-ls"
+    "jpeg-ls",
+    "tiff",
+    "raw",
+    "cr2",
+    "nef",
+    "arw",
+    "dng"
   ],
   "author": "",
   "license": "MIT",

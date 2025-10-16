@@ -5,7 +5,7 @@ export class TiffDecoder extends BaseDecoder {
   readonly format = 'tiff';
   readonly wasmJsPath = '/wasm/tiff/decoder.js';
 
-  canDecode(buffer: ArrayBuffer): boolean {
+  async canDecode(buffer: ArrayBuffer): Promise<boolean> {
     return detectImageFormat(buffer) === 'tiff';
   }
 }

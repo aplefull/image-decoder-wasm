@@ -5,7 +5,7 @@ export class JpegDecoder extends BaseDecoder {
   readonly format = 'jpeg';
   readonly wasmJsPath = '/wasm/jpeg/decoder.js';
 
-  canDecode(buffer: ArrayBuffer): boolean {
+  async canDecode(buffer: ArrayBuffer): Promise<boolean> {
     return detectImageFormat(buffer) === 'jpeg';
   }
 }
