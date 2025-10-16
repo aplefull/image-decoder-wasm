@@ -1,51 +1,117 @@
 # Image Decoder WASM
 
-A browser-based image decoder library using WebAssembly to support image formats/features not natively supported by browsers.
+A browser-based image decoder library using WebAssembly to support image formats not natively supported by browsers.
+
+## Supported Formats
+
+| Format | Extension | Description |
+|--------|-----------|-------------|
+| **AVIF** | `.avif` | AV1 Image File Format |
+| **HEIF/HEIC** | `.heif`, `.heic` | High Efficiency Image Format |
+| **WebP** | `.webp` | Google's WebP format |
+| **JXL** | `.jxl` | JPEG XL |
+| **JPEG** | `.jpg`, `.jpeg` | Standard JPEG with all features |
+| **JPEG-LS** | `.jls` | Lossless/Near-lossless JPEG |
+| **TIFF** | `.tif`, `.tiff` | Tagged Image File Format (with all compression codecs) |
+| **RAW** | `.cr2`, `.nef`, `.arw`, `.dng`, etc. |  Camera RAW formats |
 
 ## Installation
 
 ```bash
-npm install image-decoder-wasm
+npm i image-decoder-wasm
+```
+
+or
+
+```bash
+pnpm add image-decoder-wasm
 ```
 
 ## Usage
+
+### Basic Example
 
 ```typescript
 import { imageDecoder } from 'image-decoder-wasm';
 
 const response = await fetch('image.avif');
 const buffer = await response.arrayBuffer();
-
 const imageData = await imageDecoder.decode(buffer);
+```
 
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-canvas.width = imageData.width;
-canvas.height = imageData.height;
-ctx.putImageData(imageData, 0, 0);
+### Detect Format
+
+```typescript
+import { imageDecoder } from 'image-decoder-wasm';
+
+const format = imageDecoder.detectFormat(buffer);
+console.log(`Detected format: ${format}`);
+```
+
+### Get Supported Formats
+
+```typescript
+import { imageDecoder } from 'image-decoder-wasm';
+
+const formats = imageDecoder.getSupportedFormats();
+console.log(formats);
+```
+
+### Using Specific Decoders
+
+```typescript
+import { AvifDecoder } from 'image-decoder-wasm';
+
+const decoder = new AvifDecoder();
+await decoder.initialize();
+
+if (decoder.canDecode(buffer)) {
+  const decoded = await decoder.decode(buffer);
+}
 ```
 
 ## Development
 
-### Install dependencies
+### Prerequisites
+
+- Node.js 22+
+- [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) (for building WASM modules)
+
+### Setup
 
 ```bash
+# Install dependencies
 pnpm install
 ```
 
-### Build WASM Decoders
+### Build
+
 ```bash
-pnpm run build:wasm         # Build all WASM decoders
-pnpm run build:wasm:avif    # Build only AVIF decoder
+# Build TypeScript library with Vite
+pnpm run build
+
+# Build all WASM decoders
+pnpm run build:wasm
+
+# Build specific decoder (Note that some formats depend on each other)
+pnpm run build:wasm:avif
+pnpm run build:wasm:heif
+pnpm run build:wasm:webp
+pnpm run build:wasm:jxl
+pnpm run build:wasm:jpeg
+pnpm run build:wasm:jpegls
+pnpm run build:wasm:tiff
+pnpm run build:wasm:raw
 ```
 
-### Start Dev Server
+### Development Server
 
 ```bash
 pnpm run dev
 ```
 
 ### Testing
+
 ```bash
 pnpm test
 ```
@@ -139,14 +205,18 @@ if (view[0] === 0xXX && view[1] === 0xYY) {
 }
 ```
 
-### 6. Add Test Fixture
+## Acknowledgments
 
-Add `test/fixtures/sample.format`
+This library uses the following open-source projects:
 
-### 7. Update Tests
-
-In `test/decoder.test.js`, add:
-
-```javascript
-{ format: 'format', file: join(__dirname, 'fixtures/sample.format') }
-```
+- [libaom](https://aomedia.googlesource.com/aom/) - AV1 codec
+- [libavif](https://github.com/AOMedia/avif) - AV1 Image File Format
+- [libde265](https://github.com/strukturag/libde265) - H.265 decoder
+- [libheif](https://github.com/strukturag/libheif) - HEIF/HEIC decoder
+- [libwebp](https://chromium.googlesource.com/webm/libwebp) - WebP decoder
+- [libjxl](https://github.com/libjxl/libjxl) - JPEG XL reference implementation
+- [libjpeg-turbo](https://libjpeg-turbo.org/) - JPEG decoder
+- [CharLS](https://github.com/team-charls/charls) - JPEG-LS implementation
+- [libtiff](https://libtiff.gitlab.io/libtiff/) - TIFF library
+- [LibRaw](https://www.libraw.org/) - RAW image decoder
+- [Emscripten](https://emscripten.org/) - WebAssembly compiler toolchain

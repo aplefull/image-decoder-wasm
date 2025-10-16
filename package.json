@@ -5,11 +5,22 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
   "files": [
-    "dist"
+    "dist",
+    "wasm",
+    "README.md",
+    "LICENSE"
   ],
+  "sideEffects": false,
   "scripts": {
-    "build": "rollup -c",
+    "build": "vite build",
     "build:wasm": "./scripts/build-all.sh",
     "build:wasm:avif": "./scripts/build-avif.sh",
     "build:wasm:heif": "./scripts/build-heif.sh",
@@ -21,8 +32,7 @@
     "build:wasm:raw": "./scripts/build-raw.sh",
     "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
-    "test": "node test/decoder.test.js",
-    "prepare": "npm run build"
+    "test": "node test/decoder.test.js"
   },
   "keywords": [
     "image",
@@ -46,14 +56,22 @@
   ],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aplefull/image-decoder-wasm.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aplefull/image-decoder-wasm/issues"
+  },
+  "homepage": "https://github.com/aplefull/image-decoder-wasm#readme",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
-    "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-typescript": "^11.1.6",
-    "@rollup/plugin-wasm": "^6.2.2",
     "@types/node": "^20.11.0",
-    "rollup": "^4.9.6",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3",
-    "vite": "^7.1.9"
+    "vite": "^7.1.9",
+    "vite-plugin-dts": "^4.3.0"
   }
 }

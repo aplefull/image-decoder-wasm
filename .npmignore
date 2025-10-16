@@ -1,0 +1,86 @@
+# Source files
+src/
+native/
+scripts/
+test/
+
+# Build artifacts
+*.o
+*.lo
+*.a
+*.la
+*.so
+*.dylib
+*.dll
+*.exe
+.libs/
+.deps/
+
+# Development files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build directories
+.cache/
+.temp/
+node_modules/
+native/*/build/
+native/*/_install/
+native/*/lib*.*/
+native/*/libtiff-build/
+native/*/zlib-build/
+native/*/xz*/
+native/*/zstd*/
+native/*/jbigkit/
+native/*/LibRaw/
+
+# Config files
+.eslintrc*
+.prettierrc*
+tsconfig.json
+vite.config.js
+.editorconfig
+
+# Git files
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Documentation
+docs/
+
+# Test files
+*.test.js
+*.test.ts
+*.spec.js
+*.spec.ts
+test/
+coverage/
+
+# Misc
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm
+.yarn
+
+# IDE
+*.sublime-*
+.idea
+.vscode
+
+# Package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
