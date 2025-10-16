@@ -4,6 +4,7 @@ import { HeifDecoder } from './decoders/heif-decoder';
 import { WebpDecoder } from './decoders/webp-decoder';
 import { JxlDecoder } from './decoders/jxl-decoder';
 import { JpegDecoder } from './decoders/jpeg-decoder';
+import { JpegLsDecoder } from './decoders/jpegls-decoder';
 
 class DecoderRegistry {
   private decoders: Map<string, ImageDecoder> = new Map();
@@ -18,6 +19,7 @@ class DecoderRegistry {
     this.register(new WebpDecoder());
     this.register(new JxlDecoder());
     this.register(new JpegDecoder());
+    this.register(new JpegLsDecoder());
   }
 
   register(decoder: ImageDecoder): void {

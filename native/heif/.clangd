@@ -1,0 +1,9 @@
+CompileFlags:
+  Add:
+    - -D__EMSCRIPTEN__
+    - -Wno-unknown-attributes
+    - -I./libheif_build/libheif
+    - -I./libheif/libheif/api
+    - -I../../emsdk/upstream/emscripten/cache/sysroot/include
+  Remove:
+    - "-m*"

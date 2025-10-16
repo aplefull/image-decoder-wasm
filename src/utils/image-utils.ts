@@ -4,6 +4,11 @@ export function detectImageFormat(buffer: ArrayBuffer): string | null {
   if (view.length < 12) return null;
 
   if (view[0] === 0xFF && view[1] === 0xD8 && view[2] === 0xFF) {
+    for (let i = 0; i < Math.min(view.length - 1, 100); i++) {
+      if (view[i] === 0xFF && view[i + 1] === 0xF7) {
+        return 'jpegls';
+      }
+    }
     return 'jpeg';
   }
 

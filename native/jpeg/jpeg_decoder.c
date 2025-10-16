@@ -87,17 +87,6 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
         return -1;
     }
 
-    printf("Input color space: %d, data precision: %d bits\n", 
-           cinfo.jpeg_color_space, cinfo.data_precision);
-
-    // Check if we support this bit depth
-    if (cinfo.data_precision > 8) {
-        printf("Warning: JPEG uses %d-bit precision, which will be scaled to 8-bit\n", 
-               cinfo.data_precision);
-        // Standard libjpeg compiled for 8-bit can't handle 12/16-bit natively
-        // This will likely fail, but we'll try anyway
-    }
-
     int is_ycck = 0;
     int is_cmyk = 0;
     int saw_adobe_marker = 0;
@@ -122,10 +111,6 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
     int is_grayscale = (cinfo.out_color_space == JCS_GRAYSCALE);
     saw_adobe_marker = cinfo.saw_Adobe_marker;
 
-    printf("JPEG image: width=%d height=%d components=%d input_colorspace=%d output_colorspace=%d adobe_marker=%d\n",
-           width, height, num_components, cinfo.jpeg_color_space, cinfo.out_color_space, saw_adobe_marker);
-
-    // Allocate pixel buffer (RGB/CMYK -> RGBA conversion needed)
     size_t row_stride = width * num_components;
     size_t rgba_size = width * height * 4;
     uint8_t* pixelData = (uint8_t*)malloc(rgba_size);
@@ -136,11 +121,9 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
         return -2;
     }
 
-    // Allocate temporary buffer for one scanline
     JSAMPARRAY buffer = (*cinfo.mem->alloc_sarray)
         ((j_common_ptr) &cinfo, JPOOL_IMAGE, row_stride, 1);
 
-    // Read scanlines and convert to RGBA
     int row = 0;
     while (cinfo.output_scanline < cinfo.output_height) {
         jpeg_read_scanlines(&cinfo, buffer, 1);
@@ -149,31 +132,26 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
         uint8_t* dst = pixelData + (row * width * 4);
         
         if (is_ycck) {
-            // First convert YCCK to CMYK by converting YCbCr to RGB
             for (uint32_t i = 0; i < width; i++) {
                 int y_val = src[i * 4 + 0];
                 int cb = src[i * 4 + 1];
                 int cr = src[i * 4 + 2];
                 int k = src[i * 4 + 3];
 
-                // YCbCr to RGB conversion
                 int r = y_val + 1.402f * (cr - 128);
                 int g = y_val - 0.3441f * (cb - 128) - 0.7141f * (cr - 128);
                 int b = y_val + 1.772f * (cb - 128);
 
-                // Clamp values
                 int c = (r < 0) ? 0 : (r > 255) ? 255 : r;
                 int m = (g < 0) ? 0 : (g > 255) ? 255 : g;
                 int y = (b < 0) ? 0 : (b > 255) ? 255 : b;
                 k = 255 - k;
 
-                // Store CMYK values temporarily
                 src[i * 4 + 0] = (uint8_t)c;
                 src[i * 4 + 1] = (uint8_t)m;
                 src[i * 4 + 2] = (uint8_t)y;
                 src[i * 4 + 3] = (uint8_t)k;
             }
-            // Now src contains CMYK values, continue to CMYK conversion
         }
         
         if (is_cmyk || is_ycck) {
@@ -183,7 +161,6 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
                 int y = src[i * 4 + 2];
                 int k = src[i * 4 + 3];
 
-                // Convert CMYK to RGB: R = (1-C) * (1-K)
                 int r = ((255 - c) * (255 - k)) / 255;
                 int g = ((255 - m) * (255 - k)) / 255;
                 int b = ((255 - y) * (255 - k)) / 255;
@@ -216,7 +193,6 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
     jpeg_finish_decompress(&cinfo);
     jpeg_destroy_decompress(&cinfo);
 
-    // Write output: [width, height, dataPtr, dataSize]
     uint32_t* outView = (uint32_t*)outPtr;
     outView[0] = width;
     outView[1] = height;

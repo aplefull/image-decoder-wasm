@@ -1,0 +1,7 @@
+CompileFlags:
+  Add:
+    - "-D__EMSCRIPTEN__"
+    - "-Wno-unknown-attributes"
+    - "-I./charls_install/include"
+  Remove:
+    - "-m*"

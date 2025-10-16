@@ -37,13 +37,9 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
     int width = heif_image_handle_get_width(handle);
     int height = heif_image_handle_get_height(handle);
 
-    printf("HEIF image: width=%d height=%d\n", width, height);
-
     struct heif_image* img;
     error = heif_decode_image(handle, &img, heif_colorspace_RGB, heif_chroma_interleaved_RGBA, NULL);
     if (error.code != heif_error_Ok) {
-        printf("HEIF decode_image failed: code=%d, subcode=%d, message=%s\n", 
-               error.code, error.subcode, error.message);
         heif_image_handle_release(handle);
         heif_context_free(ctx);
         return -4 * 100 - error.code;
@@ -59,17 +55,12 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
         return -5 * 100;
     }
 
-    printf("HEIF decoded: stride=%d\n", stride);
-
-    // Copy image data
     size_t dataSize = stride * height;
     uint8_t* pixelData = (uint8_t*)malloc(dataSize);
     
     if (stride == width * 4) {
-        // Contiguous memory, simple copy
         memcpy(pixelData, data, dataSize);
     } else {
-        // Need to copy row by row
         for (int y = 0; y < height; y++) {
             memcpy(pixelData + y * width * 4, data + y * stride, width * 4);
         }

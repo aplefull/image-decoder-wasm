@@ -16,6 +16,7 @@
     "build:wasm:webp": "./scripts/build-webp.sh",
     "build:wasm:jxl": "./scripts/build-jxl.sh",
     "build:wasm:jpeg": "./scripts/build-jpeg.sh",
+    "build:wasm:jpegls": "./scripts/build-jpegls.sh",
     "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
     "test": "node test/decoder.test.js",
@@ -31,7 +32,9 @@
     "heic",
     "webp",
     "jxl",
-    "jpeg"
+    "jpeg",
+    "jpegls",
+    "jpeg-ls"
   ],
   "author": "",
   "license": "MIT",

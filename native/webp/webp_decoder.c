@@ -20,14 +20,10 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
 
     int width, height;
     
-    // Get WebP image dimensions
     if (!WebPGetInfo(input, inputSize, &width, &height)) {
         return -1;
     }
 
-    printf("WebP image: width=%d height=%d\n", width, height);
-
-    // Decode to RGBA
     uint8_t* pixelData = WebPDecodeRGBA(input, inputSize, &width, &height);
     
     if (!pixelData) {

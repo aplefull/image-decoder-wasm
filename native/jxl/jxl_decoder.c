@@ -70,9 +70,6 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
                 return -7;
             }
 
-            printf("JXL image: width=%d height=%d bits_per_sample=%d\n", 
-                   info.xsize, info.ysize, info.bits_per_sample);
-
             JxlResizableParallelRunnerSetThreads(runner, 
                 JxlResizableParallelRunnerSuggestThreads(info.xsize, info.ysize));
 
@@ -99,10 +96,8 @@ int decode(uint8_t* input, size_t inputSize, uint8_t* outPtr) {
             }
 
         } else if (status == JXL_DEC_FULL_IMAGE) {
-            // Image decoded successfully
             continue;
         } else if (status == JXL_DEC_SUCCESS) {
-            // All processing done
             break;
         } else {
             if (pixelData) free(pixelData);

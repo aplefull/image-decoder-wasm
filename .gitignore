@@ -10,8 +10,9 @@ public/
 emsdk/
 
 # Native build artifacts
-native/**
-!native/*/*.c
+native/*/*
+!native/*/*_decoder.c
+!native/*/.clangd
 
 # WASM output (generated during build)
 wasm/
