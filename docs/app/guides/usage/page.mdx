@@ -1,0 +1,54 @@
+# Basic Usage
+
+## Decoding an Image
+
+The most common use case is decoding an image buffer:
+
+```javascript
+import { ImageDecoderWasm } from 'image-decoder-wasm';
+
+const decoder = new ImageDecoderWasm();
+
+const response = await fetch('path/to/image.avif');
+const buffer = await response.arrayBuffer();
+
+const imageData = await decoder.decode(buffer);
+```
+
+The `decode()` method returns a standard [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) object.
+
+## Displaying on Canvas
+
+Once you have the ImageData, you can display it on a canvas:
+
+```javascript
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
+
+canvas.width = imageData.width;
+canvas.height = imageData.height;
+
+ctx.putImageData(imageData, 0, 0);
+```
+
+## Format Detection
+
+The library automatically detects the image format:
+
+```javascript
+const decoder = new ImageDecoderWasm();
+const buffer = await fetch('image.avif').then(r => r.arrayBuffer());
+
+const format = decoder.detectFormat(buffer);
+console.log(format);
+```
+
+## Checking Supported Formats
+
+To see which formats are supported:
+
+```javascript
+const decoder = new ImageDecoderWasm();
+const formats = decoder.getSupportedFormats();
+console.log(formats);
+```

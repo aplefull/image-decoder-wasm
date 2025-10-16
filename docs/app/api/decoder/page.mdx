@@ -1,0 +1,143 @@
+# ImageDecoderWasm
+
+The main class for decoding images.
+
+## Constructor
+
+```typescript
+new ImageDecoderWasm()
+```
+
+Creates a new instance of the image decoder.
+
+### Example
+
+```javascript
+import { ImageDecoderWasm } from 'image-decoder-wasm';
+
+const decoder = new ImageDecoderWasm();
+```
+
+## Methods
+
+### decode()
+
+```typescript
+async decode(buffer: ArrayBuffer): Promise<ImageData>
+```
+
+Decodes an image buffer into ImageData.
+
+#### Parameters
+
+- `buffer` (ArrayBuffer): The image data to decode
+
+#### Returns
+
+Promise that resolves to a standard [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) object containing:
+- `width`: Image width in pixels
+- `height`: Image height in pixels
+- `data`: Uint8ClampedArray of RGBA pixel data
+
+#### Throws
+
+- Error if no decoder is found for the format
+- Error if decoding fails
+
+#### Example
+
+```javascript
+const response = await fetch('image.avif');
+const buffer = await response.arrayBuffer();
+
+const imageData = await decoder.decode(buffer);
+```
+
+### detectFormat()
+
+```typescript
+detectFormat(buffer: ArrayBuffer): string | null
+```
+
+#### Parameters
+
+- `buffer` (ArrayBuffer): The image data to analyze
+
+#### Returns
+
+String representing the detected format (`'avif'`, `'heif'`, `'webp'`, `'jxl'`, `'jpeg'`, `'jpeg-ls'`, `'tiff'`) or `null` if format cannot be detected.
+
+#### Example
+
+```javascript
+const buffer = await fetch('image.avif').then(r => r.arrayBuffer());
+const format = decoder.detectFormat(buffer);
+console.log(format);
+```
+
+### getSupportedFormats()
+
+```typescript
+getSupportedFormats(): string[]
+```
+
+Returns an array of all supported image formats.
+
+#### Returns
+
+Array of format strings.
+
+#### Example
+
+```javascript
+const formats = decoder.getSupportedFormats();
+console.log(formats);
+```
+
+## ImageData Object
+
+The `decode()` method returns a standard ImageData object:
+
+```typescript
+interface ImageData {
+  readonly width: number;
+  readonly height: number;
+  readonly data: Uint8ClampedArray;
+  readonly colorSpace: PredefinedColorSpace;
+}
+```
+
+### Properties
+
+- `width`: Image width in pixels
+- `height`: Image height in pixels
+- `data`: Pixel data in RGBA format (4 bytes per pixel)
+- `colorSpace`: Color space (typically `'srgb'`)
+
+### Data Layout
+
+The `data` property contains pixels in RGBA format:
+
+```
+[R, G, B, A, R, G, B, A, R, G, B, A, ...]
+```
+
+Where:
+- R = Red (0-255)
+- G = Green (0-255)
+- B = Blue (0-255)
+- A = Alpha (0-255, 255 = fully opaque)
+
+To access a specific pixel:
+
+```javascript
+function getPixel(imageData, x, y) {
+  const index = (y * imageData.width + x) * 4;
+  return {
+    r: imageData.data[index],
+    g: imageData.data[index + 1],
+    b: imageData.data[index + 2],
+    a: imageData.data[index + 3],
+  };
+}
+```
