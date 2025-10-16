@@ -17,6 +17,7 @@
     "build:wasm:jxl": "./scripts/build-jxl.sh",
     "build:wasm:jpeg": "./scripts/build-jpeg.sh",
     "build:wasm:jpegls": "./scripts/build-jpegls.sh",
+    "build:wasm:tiff": "./scripts/build-tiff.sh",
     "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
     "test": "node test/decoder.test.js",

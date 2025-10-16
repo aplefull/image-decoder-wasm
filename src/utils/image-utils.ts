@@ -68,6 +68,11 @@ export function detectImageFormat(buffer: ArrayBuffer): string | null {
     return 'jbig2';
   }
 
+  if ((view[0] === 0x49 && view[1] === 0x49 && view[2] === 0x2A && view[3] === 0x00) ||
+      (view[0] === 0x4D && view[1] === 0x4D && view[2] === 0x00 && view[3] === 0x2A)) {
+    return 'tiff';
+  }
+
   return null;
 }
 
