@@ -1,4 +1,4 @@
-import { ImageDecoder, DecodedImage, DecoderOptions, EmscriptenModule } from '../types';
+import { ImageDecoder, DecodedImage, EmscriptenModule } from '../types';
 import { wasmLoader } from '../utils/wasm-loader';
 
 export abstract class BaseDecoder implements ImageDecoder {
@@ -13,7 +13,7 @@ export abstract class BaseDecoder implements ImageDecoder {
     this.wasmModule = await wasmLoader.loadEmscriptenModule(this.wasmJsPath);
   }
 
-  async decode(buffer: ArrayBuffer, options?: DecoderOptions): Promise<DecodedImage> {
+  async decode(buffer: ArrayBuffer): Promise<DecodedImage> {
     await this.initialize();
 
     if (!this.wasmModule) {

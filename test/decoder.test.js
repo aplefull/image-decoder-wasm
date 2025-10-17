@@ -39,13 +39,6 @@ async function testDecoder(format, filePath) {
 
     const { imageDecoder } = await import('../dist/index.mjs');
 
-    const detectedFormat = imageDecoder.detectFormat(arrayBuffer);
-    console.log(`   ✓ Format detected: ${detectedFormat}`);
-
-    if (detectedFormat !== format) {
-      throw new Error(`Format mismatch: expected ${format}, got ${detectedFormat}`);
-    }
-
     const supportedFormats = imageDecoder.getSupportedFormats();
     console.log(`   ✓ Supported formats: ${supportedFormats.join(', ')}`);
 
@@ -53,10 +46,16 @@ async function testDecoder(format, filePath) {
       throw new Error(`Format ${format} not supported`);
     }
 
+    const imageData = await imageDecoder.decode(arrayBuffer);
+
+    if (!imageData.width || !imageData.height || !imageData.data) {
+      throw new Error('Invalid decoded image data');
+    }
+
     testResults.push({
       format,
       success: true,
-      message: 'Format detection passed'
+      message: 'Decode successful'
     });
 
     console.log(`   ${format.toUpperCase()} test passed`);

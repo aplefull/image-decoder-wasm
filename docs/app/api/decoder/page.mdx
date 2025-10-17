@@ -1,22 +1,16 @@
-# ImageDecoderWasm
+# imageDecoder
 
-The main class for decoding images.
+The main API for decoding images. The library exports a singleton instance `imageDecoder` for immediate use.
 
-## Constructor
-
-```typescript
-new ImageDecoderWasm()
-```
-
-Creates a new instance of the image decoder.
-
-### Example
+## Import
 
 ```javascript
-import { ImageDecoderWasm } from 'image-decoder-wasm';
+import imageDecoder from 'image-decoder-wasm';
 
-const decoder = new ImageDecoderWasm();
+import { imageDecoder } from 'image-decoder-wasm';
 ```
+
+Both default and named imports are available.
 
 ## Methods
 
@@ -26,7 +20,7 @@ const decoder = new ImageDecoderWasm();
 async decode(buffer: ArrayBuffer): Promise<ImageData>
 ```
 
-Decodes an image buffer into ImageData.
+Decodes an image buffer into ImageData. Automatically detects the format and uses the appropriate decoder.
 
 #### Parameters
 
@@ -47,32 +41,47 @@ Promise that resolves to a standard [ImageData](https://developer.mozilla.org/en
 #### Example
 
 ```javascript
+import imageDecoder from 'image-decoder-wasm';
+
 const response = await fetch('image.avif');
 const buffer = await response.arrayBuffer();
 
-const imageData = await decoder.decode(buffer);
+const imageData = await imageDecoder.decode(buffer);
 ```
 
-### detectFormat()
+### decodeToImage()
 
 ```typescript
-detectFormat(buffer: ArrayBuffer): string | null
+async decodeToImage(buffer: ArrayBuffer): Promise<HTMLImageElement>
 ```
+
+Decodes an image buffer and returns an HTMLImageElement. This is convenient when you need a ready-to-use image element for display in the DOM.
 
 #### Parameters
 
-- `buffer` (ArrayBuffer): The image data to analyze
+- `buffer` (ArrayBuffer): The image data to decode
 
 #### Returns
 
-String representing the detected format (`'avif'`, `'heif'`, `'webp'`, `'jxl'`, `'jpeg'`, `'jpeg-ls'`, `'tiff'`) or `null` if format cannot be detected.
+Promise that resolves to an [HTMLImageElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement) that can be directly added to the DOM.
+
+#### Throws
+
+- Error if no decoder is found for the format
+- Error if decoding fails
+- Error if canvas context cannot be created
+- Error if image element creation fails
 
 #### Example
 
 ```javascript
-const buffer = await fetch('image.avif').then(r => r.arrayBuffer());
-const format = decoder.detectFormat(buffer);
-console.log(format);
+import imageDecoder from 'image-decoder-wasm';
+
+const response = await fetch('image.avif');
+const buffer = await response.arrayBuffer();
+
+const img = await imageDecoder.decodeToImage(buffer);
+document.body.appendChild(img);
 ```
 
 ### getSupportedFormats()
@@ -85,12 +94,14 @@ Returns an array of all supported image formats.
 
 #### Returns
 
-Array of format strings.
+Array of format strings (lowercase).
 
 #### Example
 
 ```javascript
-const formats = decoder.getSupportedFormats();
+import imageDecoder from 'image-decoder-wasm';
+
+const formats = imageDecoder.getSupportedFormats();
 console.log(formats);
 ```
 

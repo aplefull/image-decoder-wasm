@@ -5,14 +5,8 @@ export interface DecodedImage {
   channels: number;
 }
 
-export interface DecoderOptions {
-  maxWidth?: number;
-  maxHeight?: number;
-  targetFormat?: 'rgba' | 'rgb';
-}
-
 export interface ImageDecoder {
-  decode(buffer: ArrayBuffer, options?: DecoderOptions): Promise<DecodedImage>;
+  decode(buffer: ArrayBuffer): Promise<DecodedImage>;
   canDecode(buffer: ArrayBuffer): Promise<boolean>;
   readonly format: string;
 }

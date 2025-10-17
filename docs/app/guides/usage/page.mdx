@@ -2,26 +2,47 @@
 
 ## Decoding an Image
 
-The most common use case is decoding an image buffer:
+The most common use case is decoding an image buffer to ImageData:
 
 ```javascript
-import { ImageDecoderWasm } from 'image-decoder-wasm';
-
-const decoder = new ImageDecoderWasm();
+import imageDecoder from 'image-decoder-wasm';
 
 const response = await fetch('path/to/image.avif');
 const buffer = await response.arrayBuffer();
 
-const imageData = await decoder.decode(buffer);
+const imageData = await imageDecoder.decode(buffer);
 ```
 
 The `decode()` method returns a standard [ImageData](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) object.
 
-## Displaying on Canvas
+## Decoding to Image Element
 
-Once you have the ImageData, you can display it on a canvas:
+For direct DOM use, decode to an HTMLImageElement:
 
 ```javascript
+import imageDecoder from 'image-decoder-wasm';
+
+const response = await fetch('path/to/image.avif');
+const buffer = await response.arrayBuffer();
+
+const img = await imageDecoder.decodeToImage(buffer);
+
+document.body.appendChild(img);
+```
+
+This is more convenient than manually creating a canvas and converting ImageData.
+
+## Displaying on Canvas
+
+If you need the ImageData for canvas manipulation:
+
+```javascript
+import imageDecoder from 'image-decoder-wasm';
+
+const response = await fetch('path/to/image.avif');
+const buffer = await response.arrayBuffer();
+const imageData = await imageDecoder.decode(buffer);
+
 const canvas = document.getElementById('myCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -31,16 +52,18 @@ canvas.height = imageData.height;
 ctx.putImageData(imageData, 0, 0);
 ```
 
-## Format Detection
+## Automatic Format Detection
 
-The library automatically detects the image format:
+The library automatically detects the image format - you don't need to specify it:
 
 ```javascript
-const decoder = new ImageDecoderWasm();
-const buffer = await fetch('image.avif').then(r => r.arrayBuffer());
+import imageDecoder from 'image-decoder-wasm';
 
-const format = decoder.detectFormat(buffer);
-console.log(format);
+const avifBuffer = await fetch('image.avif').then(r => r.arrayBuffer());
+const webpBuffer = await fetch('image.webp').then(r => r.arrayBuffer());
+
+const avifData = await imageDecoder.decode(avifBuffer);
+const webpData = await imageDecoder.decode(webpBuffer);
 ```
 
 ## Checking Supported Formats
@@ -48,7 +71,29 @@ console.log(format);
 To see which formats are supported:
 
 ```javascript
-const decoder = new ImageDecoderWasm();
-const formats = decoder.getSupportedFormats();
-console.log(formats);
+import imageDecoder, { ImageFormat } from 'image-decoder-wasm';
+
+const formats = imageDecoder.getSupportedFormats();
+console.log('Supported formats:', formats);
+
+if (formats.includes(ImageFormat.AVIF)) {
+  console.log('AVIF is supported!');
+}
+```
+
+## Using Format Constants
+
+Use the `ImageFormat` object for format strings:
+
+```javascript
+import { ImageFormat } from 'image-decoder-wasm';
+
+console.log(ImageFormat.AVIF);
+console.log(ImageFormat.HEIF);
+console.log(ImageFormat.WEBP);
+console.log(ImageFormat.JXL);
+console.log(ImageFormat.JPEG);
+console.log(ImageFormat.JPEGLS);
+console.log(ImageFormat.TIFF);
+console.log(ImageFormat.RAW);
 ```

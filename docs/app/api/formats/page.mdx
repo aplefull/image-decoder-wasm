@@ -1,0 +1,65 @@
+# ImageFormat
+
+The `ImageFormat` object contains constants for all supported image formats.
+
+## Import
+
+```javascript
+import { ImageFormat } from 'image-decoder-wasm';
+```
+
+## Format Constants
+
+The `ImageFormat` object provides constants for all supported formats:
+
+```typescript
+const ImageFormat = {
+  AVIF: 'avif',
+  HEIF: 'heif',
+  HEIC: 'heic',
+  WEBP: 'webp',
+  JXL: 'jxl',
+  JPEG: 'jpeg',
+  JPEGLS: 'jpegls',
+  TIFF: 'tiff',
+  RAW: 'raw'
+} as const;
+```
+
+## Usage
+
+Use these constants instead of hardcoded strings when working with format-specific code:
+
+```javascript
+import imageDecoder, { ImageFormat } from 'image-decoder-wasm';
+
+const formats = imageDecoder.getSupportedFormats();
+
+if (formats.includes(ImageFormat.AVIF)) {
+  console.log('AVIF format is supported');
+}
+```
+
+## Supported Formats
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| `ImageFormat.AVIF` | `'avif'` | AV1 Image File Format |
+| `ImageFormat.HEIF` | `'heif'` | High Efficiency Image File Format |
+| `ImageFormat.HEIC` | `'heic'` | High Efficiency Image Container (Apple variant of HEIF) |
+| `ImageFormat.WEBP` | `'webp'` | WebP format (lossy and lossless) |
+| `ImageFormat.JXL` | `'jxl'` | JPEG XL |
+| `ImageFormat.JPEG` | `'jpeg'` | JPEG/JFIF format |
+| `ImageFormat.JPEGLS` | `'jpegls'` | JPEG-LS (lossless/near-lossless JPEG) |
+| `ImageFormat.TIFF` | `'tiff'` | Tagged Image File Format |
+| `ImageFormat.RAW` | `'raw'` | Camera RAW formats (DNG, CR2, NEF, ARW, etc.) |
+
+## Type Definition
+
+The library also exports a TypeScript type for format values:
+
+```typescript
+type ImageFormat = typeof ImageFormat[keyof typeof ImageFormat];
+
+const format: ImageFormat = 'avif';
+```

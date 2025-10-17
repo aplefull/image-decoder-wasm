@@ -1,0 +1,212 @@
+# Specific Decoders
+
+While the main `imageDecoder` instance automatically detects formats, you can also use specific decoder classes directly if needed.
+
+## Import
+
+All decoder classes are exported from the main package:
+
+```javascript
+import {
+  AvifDecoder,
+  HeifDecoder,
+  WebpDecoder,
+  JxlDecoder,
+  JpegDecoder,
+  JpegLsDecoder,
+  TiffDecoder,
+  RawDecoder
+} from 'image-decoder-wasm';
+```
+
+## Available Decoders
+
+### AvifDecoder
+
+Decodes AVIF (AV1 Image File Format) images.
+
+```javascript
+import { AvifDecoder } from 'image-decoder-wasm';
+
+const decoder = new AvifDecoder();
+const decoded = await decoder.decode(buffer);
+```
+
+### HeifDecoder
+
+Decodes HEIF/HEIC (High Efficiency Image File Format) images. This decoder also handles AVIF images that use HEIF container.
+
+```javascript
+import { HeifDecoder } from 'image-decoder-wasm';
+
+const decoder = new HeifDecoder();
+const decoded = await decoder.decode(buffer);
+```
+
+**Supported variants:**
+- HEIF
+- HEIC (Apple variant)
+- AVIF files in HEIF container
+
+### WebpDecoder
+
+Decodes WebP images (both lossy and lossless).
+
+```javascript
+import { WebpDecoder } from 'image-decoder-wasm';
+
+const decoder = new WebpDecoder();
+const decoded = await decoder.decode(buffer);
+```
+
+### JxlDecoder
+
+Decodes JPEG XL images.
+
+```javascript
+import { JxlDecoder } from 'image-decoder-wasm';
+
+const decoder = new JxlDecoder();
+const decoded = await decoder.decode(buffer);
+```
+
+### JpegDecoder
+
+Decodes standard JPEG/JFIF images.
+
+```javascript
+import { JpegDecoder } from 'image-decoder-wasm';
+
+const decoder = new JpegDecoder();
+const decoded = await decoder.decode(buffer);
+```
+
+### JpegLsDecoder
+
+Decodes JPEG-LS (lossless/near-lossless JPEG) images.
+
+```javascript
+import { JpegLsDecoder } from 'image-decoder-wasm';
+
+const decoder = new JpegLsDecoder();
+const decoded = await decoder.decode(buffer);
+```
+
+### TiffDecoder
+
+Decodes TIFF (Tagged Image File Format) images.
+
+```javascript
+import { TiffDecoder } from 'image-decoder-wasm';
+
+const decoder = new TiffDecoder();
+const decoded = await decoder.decode(buffer);
+```
+
+### RawDecoder
+
+Decodes camera RAW formats.
+
+```javascript
+import { RawDecoder } from 'image-decoder-wasm';
+
+const decoder = new RawDecoder();
+const decoded = await decoder.decode(buffer);
+```
+
+**Supported RAW formats:**
+- DNG (Adobe Digital Negative)
+- CR2/CR3 (Canon RAW)
+- NEF (Nikon Electronic Format)
+- ARW (Sony Alpha RAW)
+- ORF (Olympus RAW Format)
+- RAF (Fujifilm RAW)
+- RW2 (Panasonic RAW)
+- And many more via LibRaw
+
+## Decoder Interface
+
+All decoders implement the `ImageDecoder` interface:
+
+```typescript
+interface ImageDecoder {
+  decode(buffer: ArrayBuffer): Promise<DecodedImage>;
+  canDecode(buffer: ArrayBuffer): Promise<boolean>;
+  readonly format: string;
+}
+```
+
+### Methods
+
+#### decode()
+
+```typescript
+async decode(buffer: ArrayBuffer): Promise<DecodedImage>
+```
+
+Decodes the image buffer and returns a `DecodedImage` object.
+
+**Parameters:**
+- `buffer` (ArrayBuffer): The image data to decode
+
+**Returns:**
+```typescript
+interface DecodedImage {
+  width: number;
+  height: number;
+  data: Uint8ClampedArray;
+  channels: number;
+}
+```
+
+**Note:** All decoders output RGBA format (4 channels).
+
+#### canDecode()
+
+```typescript
+async canDecode(buffer: ArrayBuffer): Promise<boolean>
+```
+
+Checks if this decoder can decode the given buffer.
+
+**Parameters:**
+- `buffer` (ArrayBuffer): The image data to check
+
+**Returns:** `true` if the decoder can handle this format, `false` otherwise.
+
+### Properties
+
+#### format
+
+```typescript
+readonly format: string
+```
+
+The format identifier for this decoder (e.g., `'avif'`, `'heif'`, `'webp'`).
+
+## When to Use Specific Decoders
+
+You typically don't need to use specific decoders directly. The main `imageDecoder` instance automatically detects the format and uses the appropriate decoder. However, specific decoders are useful when:
+
+1. **You know the exact format** and want to skip auto-detection
+2. **Implementing format-specific logic** in your application
+3. **Testing or debugging** specific format decoders
+
+## Example: Using a Specific Decoder
+
+```javascript
+import { AvifDecoder } from 'image-decoder-wasm';
+
+const decoder = new AvifDecoder();
+
+const response = await fetch('image.avif');
+const buffer = await response.arrayBuffer();
+
+if (await decoder.canDecode(buffer)) {
+  const decoded = await decoder.decode(buffer);
+
+  console.log(`Image size: ${decoded.width}x${decoded.height}`);
+  console.log(`Channels: ${decoded.channels}`);
+  console.log(`Data length: ${decoded.data.length}`);
+}
+```
