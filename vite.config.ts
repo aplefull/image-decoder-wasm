@@ -6,7 +6,20 @@ export default defineConfig({
   root: '.',
   publicDir: 'public',
   server: {
-    open: '/test/index.html'
+    open: process.env.CI ? false : '/tests/index.html',
+    fs: {
+      deny: ['**/emsdk/**'],
+      strict: false
+    },
+    watch: {
+      ignored: ['**/emsdk/**', '**/native/**']
+    }
+  },
+  optimizeDeps: {
+    exclude: ['emsdk'],
+    entries: [
+      'src/**/*.ts'
+    ]
   },
   build: {
     outDir: 'dist',

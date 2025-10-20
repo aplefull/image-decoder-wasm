@@ -6,6 +6,9 @@ public/
 *.wasm.d.ts
 .env
 
+# Test outputs
+test-results/
+
 # Emscripten SDK (downloaded automatically)
 emsdk/
 

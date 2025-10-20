@@ -32,7 +32,12 @@
     "build:wasm:raw": "./scripts/build-raw.sh",
     "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
-    "test": "node test/decoder.test.js",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:unit": "vitest run --project=unit",
+    "test:unit:ui": "vitest --project=unit --ui",
+    "test:browser": "vitest run --project=browser",
+    "test:browser:ui": "vitest --project=browser --ui",
     "docs:dev": "cd docs && pnpm dev",
     "docs:build": "cd docs && pnpm build",
     "docs:start": "cd docs && pnpm start"
@@ -72,9 +77,15 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
+    "@types/pixelmatch": "^5.2.6",
+    "@vitest/browser": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
+    "pixelmatch": "^7.1.0",
+    "playwright": "^1.56.1",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3",
     "vite": "^7.1.9",
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "vitest": "^3.2.4"
   }
 }

@@ -42,7 +42,6 @@ export class RawDecoder extends BaseDecoder {
       }
       
       this.wasmModule.HEAPU8.set(inputArray, inputPtr);
-      console.log(2);
       const result = this.wasmModule._can_decode(inputPtr, inputArray.length);
       this.wasmModule._free_mem(inputPtr);
 
