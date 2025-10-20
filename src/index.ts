@@ -1,10 +1,11 @@
 import { decoderRegistry } from './decoder-registry';
 import type { DecodedImage } from './types';
-import { createImageData } from './utils/image-utils';
+import { createImageData, detectImageFormat } from './utils/image-utils';
 import { ImageFormat } from './formats';
 
 export type { DecodedImage, ImageDecoder } from './types';
 export { ImageFormat } from './formats';
+export { detectImageFormat } from './utils/image-utils';
 
 export { BaseDecoder } from './decoders/base-decoder';
 export { AvifDecoder } from './decoders/avif-decoder';

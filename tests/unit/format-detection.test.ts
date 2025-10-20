@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { detectImageFormat } from '../../src/utils/image-utils';
+import { detectImageFormat } from 'image-decoder-wasm';
 
 describe('Image Format Detection', () => {
   it('should detect AVIF format', async () => {

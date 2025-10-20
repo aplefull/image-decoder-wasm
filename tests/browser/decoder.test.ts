@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
+import imageDecoder from 'image-decoder-wasm';
 
 describe('Image Decoders', () => {
   beforeEach(() => {
@@ -10,7 +11,6 @@ describe('Image Decoders', () => {
       const response = await fetch('/tests/fixtures/avif/sample.avif');
       const arrayBuffer = await response.arrayBuffer();
 
-      const { default: imageDecoder } = await import('/src/index.ts');
       const imageData = await imageDecoder.decode(arrayBuffer);
 
       expect(imageData.width).toBeGreaterThan(0);
@@ -24,7 +24,6 @@ describe('Image Decoders', () => {
       const response = await fetch('/tests/fixtures/heif/sample3.heif');
       const arrayBuffer = await response.arrayBuffer();
 
-      const { default: imageDecoder } = await import('/src/index.ts');
       const imageData = await imageDecoder.decode(arrayBuffer);
 
       expect(imageData.width).toBeGreaterThan(0);
@@ -38,7 +37,6 @@ describe('Image Decoders', () => {
       const response = await fetch('/tests/fixtures/jxl/dice.jxl');
       const arrayBuffer = await response.arrayBuffer();
 
-      const { default: imageDecoder } = await import('/src/index.ts');
       const imageData = await imageDecoder.decode(arrayBuffer);
 
       expect(imageData.width).toBeGreaterThan(0);
@@ -50,7 +48,6 @@ describe('Image Decoders', () => {
       const response = await fetch('/tests/fixtures/jxl/anim-icos.jxl');
       const arrayBuffer = await response.arrayBuffer();
 
-      const { default: imageDecoder } = await import('/src/index.ts');
       const imageData = await imageDecoder.decode(arrayBuffer);
 
       expect(imageData.width).toBeGreaterThan(0);
@@ -62,7 +59,6 @@ describe('Image Decoders', () => {
       const response = await fetch('/tests/fixtures/jxl/Webkit-logo-P3.jxl');
       const arrayBuffer = await response.arrayBuffer();
 
-      const { default: imageDecoder } = await import('/src/index.ts');
       const imageData = await imageDecoder.decode(arrayBuffer);
 
       expect(imageData.width).toBeGreaterThan(0);
@@ -74,7 +70,6 @@ describe('Image Decoders', () => {
       const response = await fetch('/tests/fixtures/jxl/zoltan-tasi-CLJeQCr2F_A-unsplash.jxl');
       const arrayBuffer = await response.arrayBuffer();
 
-      const { default: imageDecoder } = await import('/src/index.ts');
       const imageData = await imageDecoder.decode(arrayBuffer);
 
       expect(imageData.width).toBeGreaterThan(0);

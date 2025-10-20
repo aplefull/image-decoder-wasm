@@ -31,7 +31,6 @@
     "build:wasm:jpegls": "./scripts/build-jpegls.sh",
     "build:wasm:tiff": "./scripts/build-tiff.sh",
     "build:wasm:raw": "./scripts/build-raw.sh",
-    "copy-wasm": "./scripts/copy-wasm.sh",
     "dev": "vite",
     "test": "vitest run",
     "test:ui": "vitest --ui",

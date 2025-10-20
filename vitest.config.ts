@@ -1,6 +1,12 @@
 import { defineConfig } from 'vitest/config';
+import { resolve } from 'path';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      'image-decoder-wasm': resolve(__dirname, './src/index.ts'),
+    },
+  },
   server: {
     fs: {
       strict: false,
