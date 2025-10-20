@@ -1,6 +1,6 @@
 {
   "name": "image-decoder-wasm",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Browser image decoder library using WebAssembly for unsupported formats",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -52,6 +52,8 @@
     "heic",
     "webp",
     "jxl",
+    "jxr",
+    "jpeg-xr",
     "jpeg",
     "jpegls",
     "jpeg-ls",
@@ -62,16 +64,16 @@
     "arw",
     "dng"
   ],
-  "author": "",
-  "license": "MIT",
+  "author": "aplefull",
+  "license": "BSD-2-Clause",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aplefull/image-decoder-wasm.git"
+    "url": "git+https://github.com/aplefull/image-decoder-wasm.git"
   },
   "bugs": {
     "url": "https://github.com/aplefull/image-decoder-wasm/issues"
   },
-  "homepage": "https://github.com/aplefull/image-decoder-wasm#readme",
+  "homepage": "https://aplefull.github.io/image-decoder-wasm",
   "engines": {
     "node": ">=22.0.0"
   },
