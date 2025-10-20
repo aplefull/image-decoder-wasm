@@ -1,12 +1,14 @@
 import nextra from 'nextra';
 
-const withNextra = nextra({});
-
 const isProd = process.env.NODE_ENV === 'production';
+const basePath = isProd ? '/image-decoder-wasm' : '';
+
+const withNextra = nextra({});
 
 export default withNextra({
   output: 'export',
-  basePath: isProd ? '/image-decoder-wasm' : '',
+  basePath: basePath,
+  assetPrefix: basePath,
   images: {
     unoptimized: true,
   },
