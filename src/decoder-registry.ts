@@ -3,6 +3,7 @@ import { AvifDecoder } from './decoders/avif-decoder';
 import { HeifDecoder } from './decoders/heif-decoder';
 import { WebpDecoder } from './decoders/webp-decoder';
 import { JxlDecoder } from './decoders/jxl-decoder';
+import { JxrDecoder } from './decoders/jxr-decoder';
 import { JpegDecoder } from './decoders/jpeg-decoder';
 import { JpegLsDecoder } from './decoders/jpegls-decoder';
 import { TiffDecoder } from './decoders/tiff-decoder';
@@ -20,6 +21,7 @@ class DecoderRegistry {
     this.register(new HeifDecoder());
     this.register(new WebpDecoder());
     this.register(new JxlDecoder());
+    this.register(new JxrDecoder());
     this.register(new JpegDecoder());
     this.register(new JpegLsDecoder());
     this.register(new TiffDecoder());

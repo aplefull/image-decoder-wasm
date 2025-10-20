@@ -1,0 +1,10 @@
+CompileFlags:
+  Add:
+    - "-D__EMSCRIPTEN__"
+    - "-D__ANSI__"
+    - "-Ijxrlib"
+    - "-Ijxrlib/common/include"
+    - "-Ijxrlib/image/sys"
+    - "-Ijxrlib/jxrgluelib"
+  Remove:
+    - "-m*"

@@ -26,6 +26,7 @@
     "build:wasm:heif": "./scripts/build-heif.sh",
     "build:wasm:webp": "./scripts/build-webp.sh",
     "build:wasm:jxl": "./scripts/build-jxl.sh",
+    "build:wasm:jxr": "./scripts/build-jxr.sh",
     "build:wasm:jpeg": "./scripts/build-jpeg.sh",
     "build:wasm:jpegls": "./scripts/build-jpegls.sh",
     "build:wasm:tiff": "./scripts/build-tiff.sh",
